@@ -1,29 +1,42 @@
 {
   "name": "videojs-contrib-hls.js",
-  "version": "3.2.0",
+  "version": "4.0.0",
   "description": "hls.js plugin for videojs",
   "main": "dist/videojs-contrib-hlsjs.min.js",
   "directories": {
     "example": "examples"
   },
   "dependencies": {
-    "hls.js": "^0.8.9"
+    "video.js": "7.2.4",
+    "hls.js": "0.11.0"
   },
   "devDependencies": {
-    "webpack": "2.4.1"
-  },
-  "peerDependencies": {
-    "video.js": "*"
+    "@types/hls.js": "^0.10.2",
+    "@types/video.js": "^7.2.5",
+    "eslint": "^5.7.0",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-node": "^7.0.1",
+    "eslint-plugin-promise": "^4.0.1",
+    "eslint-plugin-standard": "^4.0.0",
+    "eslint-plugin-typescript": "^0.12.0",
+    "ts-loader": "^5.2.2",
+    "typescript": "^3.1.3",
+    "typescript-eslint-parser": "^20.0.0",
+    "webpack": "4.11.1",
+    "webpack-cli": "3.0.2",
+    "webpack-dev-server": "3.1.4"
   },
   "scripts": {
-    "build": "webpack --bail -p",
-    "dev": "webpack -w",
+    "build": "webpack --bail --progress",
     "clean": "rm -fr dist",
+    "dev": "webpack-dev-server --progress",
+    "lint": "eslint src --ext .ts --ext .js",
     "prepublishOnly": "npm run clean && npm run build"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Peer5/videojs-contrib-hls.js.git"
+    "url": "git+https://github.com/emliri/videojs-contrib-hls.js.git"
   },
   "keywords": [
     "hlsjs",
@@ -33,10 +46,10 @@
     "videojs-contrib-hls.js",
     "peer5"
   ],
-  "author": "Peer5",
+  "author": "Peer5 | Emliri | Stephan Hesse <stephan@emliri.com>",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Peer5/videojs-contrib-hls.js/issues"
+    "url": "https://github.com/emliri/videojs-contrib-hls.js/issues"
   },
-  "homepage": "https://github.com/Peer5/videojs-contrib-hls.js#readme"
+  "homepage": "https://github.com/emliri/videojs-contrib-hls.js#readme"
 }
