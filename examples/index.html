@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Videojs-contrib-hls.js</title>
+
+        <link href="../node_modules/video.js/dist/video-js.css" rel="stylesheet">
+
+        <script src="../node_modules/video.js/dist/video.js"></script>
+        <script src="../node_modules/hls.js/dist/hls.js"></script>
+
+        <!-- Load Hls before Videojs plugin -->
+        <script src="../dist/videojs-contrib-hlsjs.min.js"></script>
+    </head>
+    <body>
+        <video id="player" class="video-js vjs-default-skin" height="360" width="640" controls preload="none">
+            <source src="https://wowza.peer5.com/live/smil:clock.smil/playlist.m3u8"
+                type="application/x-mpegURL"/>
+        </video>
+        <script>
+
+            var DEBUG_LOG_ENABLED = true;
+
+            var player = videojs('#player', {
+                html5: {
+                    hlsjsConfig: {
+                        debug: DEBUG_LOG_ENABLED
+                    }
+                }
+            });
+        </script>
+    </body>
+</html>

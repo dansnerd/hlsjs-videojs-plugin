@@ -17,6 +17,7 @@ module.exports = {
     minimize: false
   },
   externals: {
+    'hls\.js': 'Hls',
     'video\.js': {
       commonjs: 'video.js',
       commonjs2: 'video.js',
