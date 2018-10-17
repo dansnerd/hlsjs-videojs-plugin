@@ -51,9 +51,7 @@ hls.js is [very configurable](https://github.com/dailymotion/hls.js/blob/master/
     })
  ```
 
-full list of hls.js events can be found [here](https://github.com/video-dev/hls.js/blob/master/doc/API.md#runtime-events)
-
-*NOTE* hls.js global is exposed to `window.Hls` when the module is loaded
+A full list of hls.js events can be found [here](https://github.com/video-dev/hls.js/blob/master/doc/API.md#runtime-events)
 
 ### Custom hls.js configuration
 
