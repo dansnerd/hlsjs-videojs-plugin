@@ -28,9 +28,8 @@ import videojs from 'video.js'; // resolved UMD-wise through webpack
   }
 
   /**
-   * hls.js source handler
-   * @param source
-   * @param tech
+   * Videojs Source-handler plugin for Hls.js
+   * @class
    * @constructor
    */
   class Html5HlsJS {
@@ -121,7 +120,11 @@ import videojs from 'video.js'; // resolved UMD-wise through webpack
   const HLS_MIME_TYPE_REGEX = /^application\/(x-mpegURL|vnd\.apple\.mpegURL)$/i;
   const HLS_M3U8_EXT_REGEX = /\.m3u8/i;
 
-  class HlsSourceHandler {
+  /**
+   * The static plugin factory for our source-handler
+   * @class
+   */
+  class HlsSourceHandlerPlugin {
     static canHandleSource (source) {
       if (source.skipContribHlsJs) {
         return '';
@@ -160,7 +163,7 @@ import videojs from 'video.js'; // resolved UMD-wise through webpack
     html5Tech = html5Tech || ((videojs.getComponent && videojs.getComponent('Html5')) as any); // videojs5 (we use videojs 7 typings)
 
     if (html5Tech) {
-      (html5Tech as any).registerSourceHandler(HlsSourceHandler, 0);
+      (html5Tech as any).registerSourceHandler(HlsSourceHandlerPlugin, 0);
     }
   } else {
     console.warn('videojs-contrib-hls.js: Couldn\'t find find window.videojs nor require(\'video.js\')');
