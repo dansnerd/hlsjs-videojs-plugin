@@ -11,6 +11,8 @@ IMPORTANT: The plugin here expects Hls.js to be installed in the global environm
 
 NOTE: You can disable this behavior and have Hls.js (and even videojs) bundled into this plugin completely, simply by removing the respective `externals` entries in the webpack config file.
 
+NOTE: This plugin was created from code forked-off a [Peer5 implementation](https://github.com/Peer5/videojs-contrib-hls) with the motivation to ensure Hlsjs/videojs API type-safety as well as flexible choice of versions on the user-side; specifically allow using a videojs v7+ distro and latest Hls.js v0 or other compatible distro.
+
 ## Getting Started
 
 Take a look at `examples/index.html` and use the files in `dist` of this git repo.
