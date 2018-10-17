@@ -7,23 +7,25 @@
     "example": "examples"
   },
   "dependencies": {
-    "hls.js": "^0.8.9"
+    "video.js": "7.2.4",
+    "hls.js": "0.11.0"
   },
   "devDependencies": {
-    "webpack": "2.4.1"
-  },
-  "peerDependencies": {
-    "video.js": "*"
+    "ts-loader": "^4.4.2",
+    "typescript": "^2.9.1",
+    "webpack": "4.11.1",
+    "webpack-cli": "3.0.2",
+    "webpack-dev-server": "3.1.4"
   },
   "scripts": {
-    "build": "webpack --bail -p",
-    "dev": "webpack -w",
+    "build": "webpack --bail --progress",
+    "dev": "webpack-dev-server --progress",
     "clean": "rm -fr dist",
     "prepublishOnly": "npm run clean && npm run build"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Peer5/videojs-contrib-hls.js.git"
+    "url": "git+https://github.com/emliri/videojs-contrib-hls.js.git"
   },
   "keywords": [
     "hlsjs",
@@ -33,10 +35,10 @@
     "videojs-contrib-hls.js",
     "peer5"
   ],
-  "author": "Peer5",
+  "author": "Peer5 | Emliri | Stephan Hesse <stephan@emliri.com>",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Peer5/videojs-contrib-hls.js/issues"
+    "url": "https://github.com/emliri/videojs-contrib-hls.js/issues"
   },
-  "homepage": "https://github.com/Peer5/videojs-contrib-hls.js#readme"
+  "homepage": "https://github.com/emliri/videojs-contrib-hls.js#readme"
 }

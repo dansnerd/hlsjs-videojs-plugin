@@ -1,5 +1,3 @@
-'use strict';
-
 var Hls = require('hls.js');
 
 if (!window.Hls) {
