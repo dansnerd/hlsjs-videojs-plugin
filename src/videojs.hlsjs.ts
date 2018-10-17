@@ -2,6 +2,7 @@
  * @author Stephan Hesse <stephan@emliri.com>
  * @copyright (c) (2018) Stephan Hesse, Emliri
  * @copyright Peer5
+ * @license Apache2.0
  *
  * Videojs HLS Source-handler plugin using Hls.js
  */
