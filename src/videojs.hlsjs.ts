@@ -2,29 +2,26 @@ import * as Hls from 'hls.js';
 import videojs from 'video.js'; // resolved UMD-wise through webpack
 
 (function (videojs) {
-
   type ErrorHandler = () => void;
 
   /**
    * creates an error handler function
    */
-  function makeErrorHandler(hls: Hls): ErrorHandler {
-    var _recoverDecodingErrorDate = null;
-    var _recoverAudioCodecErrorDate = null;
+  function makeErrorHandler (hls: Hls): ErrorHandler {
+    let _recoverDecodingErrorDate = null;
+    let _recoverAudioCodecErrorDate = null;
 
-    return function() {
-      var now = Date.now();
+    return function () {
+      let now = Date.now();
 
       if (!_recoverDecodingErrorDate || (now - _recoverDecodingErrorDate) > 2000) {
         _recoverDecodingErrorDate = now;
         hls.recoverMediaError();
-      }
-      else if (!_recoverAudioCodecErrorDate || (now - _recoverAudioCodecErrorDate) > 2000) {
+      } else if (!_recoverAudioCodecErrorDate || (now - _recoverAudioCodecErrorDate) > 2000) {
         _recoverAudioCodecErrorDate = now;
         hls.swapAudioCodec();
         hls.recoverMediaError();
-      }
-      else {
+      } else {
         console.error('Error loading media: File could not be played');
       }
     };
@@ -37,29 +34,25 @@ import videojs from 'video.js'; // resolved UMD-wise through webpack
    * @constructor
    */
   class Html5HlsJS {
-
     private hls: Hls;
     private el: HTMLMediaElement;
     private _duration: number;
 
-    constructor(source: videojs.Tech.SourceObject, tech: videojs.Tech) {
-
+    constructor (source: videojs.Tech.SourceObject, tech: videojs.Tech) {
       const options: videojs.ComponentOptions = tech.options_;
       const el: HTMLMediaElement = this.el = <HTMLMediaElement> tech.el();
       const hls: Hls = this.hls = new Hls((options as any).hlsjsConfig);
 
       // create separate error handlers for hlsjs and the video tag
-      var hlsjsErrorHandler: ErrorHandler = makeErrorHandler(hls);
-      var videoTagErrorHandler: ErrorHandler = makeErrorHandler(hls);
+      const hlsjsErrorHandler: ErrorHandler = makeErrorHandler(hls);
+      const videoTagErrorHandler: ErrorHandler = makeErrorHandler(hls);
 
       // listen to error events coming from the video tag
       el.addEventListener('error', (e) => {
-
         const mediaError = this.el.error;
         if (mediaError.code === mediaError.MEDIA_ERR_DECODE) {
           videoTagErrorHandler();
-        }
-        else {
+        } else {
           console.error('Error loading media: File could not be played');
         }
       });
@@ -73,22 +66,22 @@ import videojs from 'video.js'; // resolved UMD-wise through webpack
       hls.on(Hls.Events.ERROR, (event, data) => {
         if (data.fatal) {
           switch (data.type) {
-            case Hls.ErrorTypes.NETWORK_ERROR:
-              hls.startLoad();
-              break;
-            case Hls.ErrorTypes.MEDIA_ERROR:
-              hlsjsErrorHandler();
-              break;
-            default:
-              console.error('Error loading media: File could not be played');
-              break;
+          case Hls.ErrorTypes.NETWORK_ERROR:
+            hls.startLoad();
+            break;
+          case Hls.ErrorTypes.MEDIA_ERROR:
+            hlsjsErrorHandler();
+            break;
+          default:
+            console.error('Error loading media: File could not be played');
+            break;
           }
         }
       });
 
-      Object.keys(Hls.Events).forEach(function(key) {
-        var eventName = Hls.Events[key];
-        hls.on(eventName, function(event, data) {
+      Object.keys(Hls.Events).forEach(function (key) {
+        let eventName = Hls.Events[key];
+        hls.on(eventName, function (event, data) {
           tech.trigger(eventName, data);
         });
       });
@@ -100,7 +93,7 @@ import videojs from 'video.js'; // resolved UMD-wise through webpack
           value: tech.textTracks,
           writable: false
         });
-        el.addTextTrack = function() {
+        el.addTextTrack = function () {
           return tech.addTextTrack.apply(tech, arguments);
         };
       }
@@ -113,35 +106,30 @@ import videojs from 'video.js'; // resolved UMD-wise through webpack
     /**
      * Returns duration of media
      */
-    duration(): number {
+    duration (): number {
       return this._duration || this.el.duration || 0;
     }
 
     /**
      * Dispose
      */
-    dispose(): void {
+    dispose (): void {
       this.hls.destroy();
     }
-
   }
 
   const HLS_MIME_TYPE_REGEX = /^application\/(x-mpegURL|vnd\.apple\.mpegURL)$/i;
   const HLS_M3U8_EXT_REGEX = /\.m3u8/i;
 
   class HlsSourceHandler {
-
-    static canHandleSource(source) {
+    static canHandleSource (source) {
       if (source.skipContribHlsJs) {
         return '';
-      }
-      else if (HLS_MIME_TYPE_REGEX.test(source.type)) {
+      } else if (HLS_MIME_TYPE_REGEX.test(source.type)) {
         return 'probably';
-      }
-      else if (HLS_M3U8_EXT_REGEX.test(source.src)) {
+      } else if (HLS_M3U8_EXT_REGEX.test(source.src)) {
         return 'maybe';
-      }
-      else {
+      } else {
         return '';
       }
     }
@@ -167,17 +155,14 @@ import videojs from 'video.js'; // resolved UMD-wise through webpack
   videojs = videojs && (videojs as any).default || videojs;
 
   if (videojs) {
-    var html5Tech = videojs.getTech && videojs.getTech('Html5'); // videojs6 (partially on videojs5 too)
+    let html5Tech = videojs.getTech && videojs.getTech('Html5'); // videojs6 (partially on videojs5 too)
 
     html5Tech = html5Tech || ((videojs.getComponent && videojs.getComponent('Html5')) as any); // videojs5 (we use videojs 7 typings)
 
     if (html5Tech) {
       (html5Tech as any).registerSourceHandler(HlsSourceHandler, 0);
     }
-  }
-  else {
+  } else {
     console.warn('videojs-contrib-hls.js: Couldn\'t find find window.videojs nor require(\'video.js\')');
   }
-
-})(videojs)
-
+})(videojs);

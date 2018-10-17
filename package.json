@@ -15,9 +15,13 @@
     "@types/video.js": "^7.2.5",
     "eslint": "^5.7.0",
     "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-node": "^7.0.1",
+    "eslint-plugin-promise": "^4.0.1",
+    "eslint-plugin-standard": "^4.0.0",
     "eslint-plugin-typescript": "^0.12.0",
-    "ts-loader": "^4.4.2",
-    "typescript": "^2.9.1",
+    "ts-loader": "^5.2.2",
+    "typescript": "^3.1.3",
     "typescript-eslint-parser": "^20.0.0",
     "webpack": "4.11.1",
     "webpack-cli": "3.0.2",
@@ -25,8 +29,9 @@
   },
   "scripts": {
     "build": "webpack --bail --progress",
-    "dev": "webpack-dev-server --progress",
     "clean": "rm -fr dist",
+    "dev": "webpack-dev-server --progress",
+    "lint": "eslint src --ext .ts --ext .js",
     "prepublishOnly": "npm run clean && npm run build"
   },
   "repository": {
