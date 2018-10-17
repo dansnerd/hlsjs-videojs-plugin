@@ -7,6 +7,9 @@ module.exports = {
     filename: 'videojs-contrib-hlsjs.min.js',
     libraryTarget: 'umd'
   },
+  resolve: {
+    extensions: [".ts", ".js"]
+  },
   module: {
     rules: [
       { test: /\.ts$/, loader: "ts-loader" },

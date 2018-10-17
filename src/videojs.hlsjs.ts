@@ -1,7 +1,34 @@
-import Hls from 'hls.js';
+import * as Hls from 'hls.js';
 import videojs from 'video.js'; // resolved UMD-wise through webpack
 
 (function (videojs) {
+
+  type ErrorHandler = () => void;
+
+  /**
+   * creates an error handler function
+   */
+  function makeErrorHandler(hls: Hls): ErrorHandler {
+    var _recoverDecodingErrorDate = null;
+    var _recoverAudioCodecErrorDate = null;
+
+    return function() {
+      var now = Date.now();
+
+      if (!_recoverDecodingErrorDate || (now - _recoverDecodingErrorDate) > 2000) {
+        _recoverDecodingErrorDate = now;
+        hls.recoverMediaError();
+      }
+      else if (!_recoverAudioCodecErrorDate || (now - _recoverAudioCodecErrorDate) > 2000) {
+        _recoverAudioCodecErrorDate = now;
+        hls.swapAudioCodec();
+        hls.recoverMediaError();
+      }
+      else {
+        console.error('Error loading media: File could not be played');
+      }
+    };
+  }
 
   /**
    * hls.js source handler
@@ -11,46 +38,24 @@ import videojs from 'video.js'; // resolved UMD-wise through webpack
    */
   class Html5HlsJS {
 
-    constructor(source, tech) {
+    private hls: Hls;
+    private el: HTMLMediaElement;
+    private _duration: number;
 
-      var options = tech.options_;
-      var el = tech.el();
-      var hls = this.hls = new Hls(options.hlsjsConfig);
+    constructor(source: videojs.Tech.SourceObject, tech: videojs.Tech) {
 
-      /**
-       * creates an error handler function
-       * @returns {Function}
-       */
-      function errorHandlerFactory() {
-        var _recoverDecodingErrorDate = null;
-        var _recoverAudioCodecErrorDate = null;
-
-        return function() {
-          var now = Date.now();
-
-          if (!_recoverDecodingErrorDate || (now - _recoverDecodingErrorDate) > 2000) {
-            _recoverDecodingErrorDate = now;
-            hls.recoverMediaError();
-          }
-          else if (!_recoverAudioCodecErrorDate || (now - _recoverAudioCodecErrorDate) > 2000) {
-            _recoverAudioCodecErrorDate = now;
-            hls.swapAudioCodec();
-            hls.recoverMediaError();
-          }
-          else {
-            console.error('Error loading media: File could not be played');
-          }
-        };
-      }
+      const options: videojs.ComponentOptions = tech.options_;
+      const el: HTMLMediaElement = this.el = <HTMLMediaElement> tech.el();
+      const hls: Hls = this.hls = new Hls((options as any).hlsjsConfig);
 
       // create separate error handlers for hlsjs and the video tag
-      var hlsjsErrorHandler = errorHandlerFactory();
-      var videoTagErrorHandler = errorHandlerFactory();
+      var hlsjsErrorHandler: ErrorHandler = makeErrorHandler(hls);
+      var videoTagErrorHandler: ErrorHandler = makeErrorHandler(hls);
 
       // listen to error events coming from the video tag
-      el.addEventListener('error', function(e) {
-        var mediaError = e.currentTarget.error;
+      el.addEventListener('error', (e) => {
 
+        const mediaError = this.el.error;
         if (mediaError.code === mediaError.MEDIA_ERR_DECODE) {
           videoTagErrorHandler();
         }
@@ -60,12 +65,12 @@ import videojs from 'video.js'; // resolved UMD-wise through webpack
       });
 
       // update live status on level load
-      hls.on(Hls.Events.LEVEL_LOADED, function(event, data) {
-        this.duration = data.details.live ? Infinity : data.details.totalduration;
+      hls.on(Hls.Events.LEVEL_LOADED, (event, data) => {
+        this._duration = data.details.live ? Infinity : data.details.totalduration;
       });
 
       // try to recover on fatal errors
-      hls.on(Hls.Events.ERROR, function(event, data) {
+      hls.on(Hls.Events.ERROR, (event, data) => {
         if (data.fatal) {
           switch (data.type) {
             case Hls.ErrorTypes.NETWORK_ERROR:
@@ -101,21 +106,21 @@ import videojs from 'video.js'; // resolved UMD-wise through webpack
       }
 
       // attach hlsjs to videotag
-      hls.attachMedia(el);
+      hls.attachMedia(this.el as HTMLVideoElement);
       hls.loadSource(source.src);
     }
 
     /**
      * Returns duration of media
      */
-    duration() {
-      return this.duration || el.duration || 0;
+    duration(): number {
+      return this._duration || this.el.duration || 0;
     }
 
     /**
      * Dispose
      */
-    dispose() {
+    dispose(): void {
       this.hls.destroy();
     }
 
@@ -159,15 +164,15 @@ import videojs from 'video.js'; // resolved UMD-wise through webpack
   }
 
   // support es6 style import
-  videojs = videojs && videojs.default || videojs;
+  videojs = videojs && (videojs as any).default || videojs;
 
   if (videojs) {
     var html5Tech = videojs.getTech && videojs.getTech('Html5'); // videojs6 (partially on videojs5 too)
 
-    html5Tech = html5Tech || (videojs.getComponent && videojs.getComponent('Html5')); // videojs5
+    html5Tech = html5Tech || ((videojs.getComponent && videojs.getComponent('Html5')) as any); // videojs5 (we use videojs 7 typings)
 
     if (html5Tech) {
-      html5Tech.registerSourceHandler(HlsSourceHandler, 0);
+      (html5Tech as any).registerSourceHandler(HlsSourceHandler, 0);
     }
   }
   else {
