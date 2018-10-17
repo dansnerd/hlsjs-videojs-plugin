@@ -1,3 +1,11 @@
+/***
+ * @author Stephan Hesse <stephan@emliri.com>
+ * @copyright (c) (2018) Stephan Hesse, Emliri
+ * @copyright Peer5
+ *
+ * Videojs HLS Source-handler plugin using Hls.js
+ */
+
 import * as Hls from 'hls.js';
 import videojs from 'video.js'; // resolved UMD-wise through webpack
 
