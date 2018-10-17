@@ -1,5 +1,5 @@
 {
-  "name": "@emliri/videojs-hlsjs",
+  "name": "@emliri/hlsjs-videojs",
   "version": "4.0.0",
   "description": "hls.js plugin for videojs",
   "main": "dist/videojs-contrib-hlsjs.min.js",
