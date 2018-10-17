@@ -1,49 +1,19 @@
 # HLS plugin for video.js using hls.js
-Plays HLS with [video.js](https://github.com/videojs/video.js) on any platform, even where it's not natively supported, using [Dailymotion's hls.js](https://github.com/dailymotion/hls.js) tech.
+Plays HLS with [video.js](https://github.com/videojs/video.js) on any HTML5 platform, even where it's not natively supported, using  a v0 compatible [hls.js](https://github.com/video-dev/hls.js) library of your choice.
 
-This bundled plugin is an **alternative** to the original [videojs-contrib-hls](https://github.com/videojs/videojs-contrib-hls) and runs directly on top of [video.js 5.0+](https://github.com/videojs/video.js).
+~~This bundled plugin is an **alternative** to the original [videojs-contrib-hls](https://github.com/videojs/videojs-contrib-hls) and runs directly on top of [video.js 5.0+](https://github.com/videojs/video.js).~~ DISAMBIGUATION: `videojs-contrib-hls` is an out-dated plugin supported by Brightcove that is an unrelated HLS implementation.
 
-Like the original implementation, this plugin implements a source handler for m3u8 files.
-`hls.js` is bundled inside and there is no need to include it in addition.
+This plugin implements a videojs source handler for m3u8 files or other HLS mime-type matching source objects.
 
-## Installation
-### NPM
-To install `videojs-contrib-hls.js` with npm run
+~~`hls.js` is bundled inside and there is no need to include it in addition.~~
 
-```bash
-npm install --save videojs-contrib-hls.js
-```
+IMPORTANT: The plugin here expects Hls.js to be installed in the global environment or to be injected via your own webpack toolchain.
 
-### CDN
-Get the latest stable version from the [CDN](https://unpkg.com/videojs-contrib-hls.js)
-
-### Releases
-Download a release of [videojs-contrib-hls](https://github.com/peer5/videojs-contrib-hls.js/releases)
+NOTE: You can disable this behavior and have Hls.js (and even videojs) bundled into this plugin completely, simply by removing the respective `externals` entries in the webpack config file.
 
 ## Getting Started
-Get a copy of [videojs-contrib-hls](#installation) and include it in your page along with video.js:
 
-```html
-<video id=player width=600 height=300 class="video-js vjs-default-skin" controls>
-  <source src="https://example.com/index.m3u8" type="application/x-mpegURL">
-</video>
-<script src="video.js"></script>
-<script src="videojs-contrib-hlsjs.min.js"></script>
-<script>
-  var player = videojs('#player');
-</script>
-```
-
-in a CommonJS app
-
-```js
-var videojs = require('video.js');
-require('videojs-contrib-media-sources'); // increase browser support with MSE polyfill
-require('videojs-contrib-hls.js'); // auto attaches hlsjs handler
-
-var player = videojs('#player');
-
-```
+Take a look at `examples/index.html` and use the files in `dist` of this git repo.
 
 ## Options
 hls.js is [very configurable](https://github.com/dailymotion/hls.js/blob/master/API.md#fine-tuning), you may pass in an options object to the source handler at player initialization. You can pass in options just like you would for other parts of video.js:
