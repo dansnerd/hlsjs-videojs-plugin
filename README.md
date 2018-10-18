@@ -1,8 +1,6 @@
 # HLS plugin for video.js using hls.js
 Plays HLS with [video.js](https://github.com/videojs/video.js) on any HTML5 platform, even where it's not natively supported, using  a v0 compatible [hls.js](https://github.com/video-dev/hls.js) library of your choice (or the default bundled one).
 
-~~This bundled plugin is an **alternative** to the original [videojs-contrib-hls](https://github.com/videojs/videojs-contrib-hls) and runs directly on top of [video.js 5.0+](https://github.com/videojs/video.js).~~ DISAMBIGUATION: `videojs-contrib-hls` is an out-dated plugin supported by Brightcove that is an unrelated HLS implementation.
-
 This plugin implements a videojs source handler for m3u8 files or other HLS mime-type matching source objects.
 
 An `hls.js` distro is bundled by default with this plugin and there is no need to include it in addition.
