@@ -4,8 +4,11 @@ const config = {
   devtool: 'source-map',
   output: {
     path: __dirname + '/dist',
+    publicPath: '/dist/',
     filename: 'videojs-contrib-hlsjs.min.js',
-    libraryTarget: 'umd'
+    libraryTarget: 'umd',
+    libraryExport: 'default',
+    globalObject: 'this'
   },
   resolve: {
     extensions: [".ts", ".js"]

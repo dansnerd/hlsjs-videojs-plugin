@@ -8,9 +8,17 @@
  */
 
 import * as Hls from 'hls.js';
-import videojs from 'video.js'; // resolved UMD-wise through webpack
+import videojs from 'video.js';
 
-(function (videojs) {
+function setup(HlsjsConstructor: typeof Hls, videojsLib: typeof videojs) {
+
+  if (!videojsLib || !HlsjsConstructor) {
+    return;
+  }
+
+  (Hls as typeof Hls) = HlsjsConstructor;
+  (videojs as typeof videojs) = videojsLib;
+
   type ErrorHandler = () => void;
 
   /**
@@ -66,12 +74,12 @@ import videojs from 'video.js'; // resolved UMD-wise through webpack
       });
 
       // update live status on level load
-      hls.on(Hls.Events.LEVEL_LOADED, (event, data) => {
+      hls.on(Hls.Events.LEVEL_LOADED, (event, data: any) => {
         this._duration = data.details.live ? Infinity : data.details.totalduration;
       });
 
       // try to recover on fatal errors
-      hls.on(Hls.Events.ERROR, (event, data) => {
+      hls.on(Hls.Events.ERROR, (event, data: any) => {
         if (data.fatal) {
           switch (data.type) {
           case Hls.ErrorTypes.NETWORK_ERROR:
@@ -160,21 +168,19 @@ import videojs from 'video.js'; // resolved UMD-wise through webpack
   }
 
   if (!Hls.isSupported()) {
+    console.warn('Hls.js is not supported on this platform');
     return;
   }
 
-  // support es6 style import
-  videojs = videojs && (videojs as any).default || videojs;
+  let html5Tech = videojs.getTech && videojs.getTech('Html5'); // videojs6 (partially on videojs5 too)
 
-  if (videojs) {
-    let html5Tech = videojs.getTech && videojs.getTech('Html5'); // videojs6 (partially on videojs5 too)
+  html5Tech = html5Tech || ((videojs.getComponent && videojs.getComponent('Html5')) as any); // videojs5 (we use videojs 7 typings)
 
-    html5Tech = html5Tech || ((videojs.getComponent && videojs.getComponent('Html5')) as any); // videojs5 (we use videojs 7 typings)
-
-    if (html5Tech) {
-      (html5Tech as any).registerSourceHandler(HlsSourceHandlerPlugin, 0);
-    }
-  } else {
-    console.warn('videojs-contrib-hls.js: Couldn\'t find find window.videojs nor require(\'video.js\')');
+  if (html5Tech) {
+    (html5Tech as any).registerSourceHandler(HlsSourceHandlerPlugin, 0);
   }
-})(videojs);
+}
+
+setup(Hls || (window as any).Hls, videojs || (window as any).videojs);
+
+export default setup;
