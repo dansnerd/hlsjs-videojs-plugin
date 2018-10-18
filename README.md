@@ -3,7 +3,7 @@ Plays HLS with [video.js](https://github.com/videojs/video.js) on any HTML5 plat
 
 This plugin implements a videojs source handler for m3u8 files or other HLS mime-type matching source objects.
 
-An `hls.js` distro is bundled by default with this plugin and there is no need to include it in addition.
+An Hls.js distro is bundled by default with this plugin and there is no need to include it in addition.
 
 The plugin can also be built without bundling Hls.js (see package-script `npm run build:use-external-hlsjs`). In this case, an Hls.js distro should be installed in the environment, exported as a  `window` property or via your own build toolchain in a CJS/UMD fashion. This should allow to use the Hls.js version of your choice, without having to rebuild the plugin. See the section [Dependency Injection](#dependency-injection) in this readme for more information on this feature.
 
@@ -62,6 +62,8 @@ the hls.js instance is exposed on the sourceHandler instance
  ```
 
 ## Dependency Injection
+
+NOTE: This mostly supposes that you are using a dist of this plugin which is *not* bundling Hls.js. This isn't the default case, and my require that you use results of running `npm run build:use-external-hlsjs`.
 
 If Hls.js or videojs are not resolved at declaration time of the plugin in one of the expectable ways, the plugin setup will silently no-op.
 
