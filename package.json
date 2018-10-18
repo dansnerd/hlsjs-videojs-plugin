@@ -28,9 +28,10 @@
     "webpack-dev-server": "3.1.4"
   },
   "scripts": {
-    "build": "webpack --bail --progress",
+    "build": "WEBPACK_MODE=production webpack --bail --progress",
+    "build:use-external-hlsjs": "USE_EXTERNAL_HLSJS=true npm run build",
     "clean": "rm -fr dist",
-    "dev": "webpack-dev-server --progress",
+    "start": "webpack-dev-server --progress",
     "lint": "eslint src --ext .ts --ext .js",
     "prepublishOnly": "npm run clean && npm run build"
   },

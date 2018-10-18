@@ -1,4 +1,4 @@
-module.exports = {
+const config = {
   mode: process.env.WEBPACK_MODE || 'development',
   entry: __dirname + '/src/videojs.hlsjs',
   devtool: 'source-map',
@@ -17,10 +17,9 @@ module.exports = {
     ]
   },
   optimization: {
-    minimize: false
+    minimize: true
   },
   externals: {
-    'hls\.js': 'Hls',
     'video\.js': {
       commonjs: 'video.js',
       commonjs2: 'video.js',
@@ -29,3 +28,10 @@ module.exports = {
     }
   }
 };
+
+if (process.env.USE_EXTERNAL_HLSJS) {
+  console.warn('Not bundling Hlsjs distro into the plugin - you have to make it available externally\n');
+  config.externals['hls\.js'] = 'Hls';
+}
+
+module.exports = config;
