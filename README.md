@@ -5,9 +5,9 @@ This plugin implements a videojs source handler for m3u8 files or other HLS mime
 
 An `hls.js` distro is bundled by default with this plugin and there is no need to include it in addition.
 
-The plugin can also be built without bundling Hls.js (see package-script `npm run build:use-external-hlsjs`). In this case, an Hls.js distro should be installed in the environment, exported as a  `window` property or via your own build toolchain in a CJS/UMD fashion. This should allow to use the Hls.js version of your choice, without having to rebuild the plugin.
+The plugin can also be built without bundling Hls.js (see package-script `npm run build:use-external-hlsjs`). In this case, an Hls.js distro should be installed in the environment, exported as a  `window` property or via your own build toolchain in a CJS/UMD fashion. This should allow to use the Hls.js version of your choice, without having to rebuild the plugin. See the section [Dependency Injection](#dependency-injection) in this readme for more information on this feature.
 
-See the section `Dependency injection` in this readme.
+NOTE: This plugin was created from code forked-off a [Peer5 implementation](https://github.com/Peer5/videojs-contrib-hls) with the motivation to ensure Hlsjs/videojs API type-safety as well as flexible choice of versions on the user-side; specifically allow using a videojs v7+ distro and latest Hls.js v0 or other compatible distro.
 
 ## Getting Started
 
@@ -61,7 +61,7 @@ the hls.js instance is exposed on the sourceHandler instance
     player.tech_.sourceHandler_.hls.currentLevel = -1
  ```
 
-## Dependency injection
+## Dependency Injection
 
 If Hls.js or videojs are not resolved at declaration time of the plugin in one of the expectable ways, the plugin setup will silently no-op.
 
@@ -79,5 +79,3 @@ hlsVideojsPlugin(Hls, videojs /* optional */); // when run without args we'll tr
 Obviously, you can also still simply load the module in a `script` tag and it will try to resolve dependencies from `window`.
 
 Finally, another option is to build the plugin yourself with Hls.js bundled, and modify the version in the `package.json` to match your choice.
-
-NOTE: This plugin was created from code forked-off a [Peer5 implementation](https://github.com/Peer5/videojs-contrib-hls) with the motivation to ensure Hlsjs/videojs API type-safety as well as flexible choice of versions on the user-side; specifically allow using a videojs v7+ distro and latest Hls.js v0 or other compatible distro.
