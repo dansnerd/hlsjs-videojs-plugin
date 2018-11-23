@@ -17,7 +17,8 @@ function makeConfig(options = {}) {
       publicPath: '/' + DIST_DIR +  '/',
       filename: libName + '.min.js',
       library: libName,
-      libraryTarget: 'umd'
+      libraryTarget: 'umd',
+      libraryExport: 'default'
     },
     resolve: {
       extensions: [".ts", ".js"]
@@ -29,7 +30,7 @@ function makeConfig(options = {}) {
       ]
     },
     optimization: {
-      minimize: true
+      minimize: false
     },
     externals: {
       'video\.js': {
@@ -42,7 +43,12 @@ function makeConfig(options = {}) {
   };
 
   if (options.useExternalHlsjs) {
-    config.externals['hls\.js'] = 'Hls';
+    config.externals['hls\.js'] = {
+      commonjs: 'hls.js',
+      commonjs2: 'hls.js',
+      amd: 'hls.js',
+      root: 'Hls'
+    }
   }
 
   return config;

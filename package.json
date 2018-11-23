@@ -28,7 +28,7 @@
     "webpack-dev-server": "3.1.4"
   },
   "scripts": {
-    "build": "rm -Rf dist && WEBPACK_MODE=production webpack --bail --progress",
+    "build": "WEBPACK_MODE=production webpack --bail --progress",
     "start": "webpack-dev-server --progress",
     "lint": "eslint src --ext .ts --ext .js"
   },
