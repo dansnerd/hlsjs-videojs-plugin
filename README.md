@@ -1,17 +1,32 @@
 # HLS plugin for video.js using hls.js
+
 Plays HLS with [video.js](https://github.com/videojs/video.js) on any HTML5 platform, even where it's not natively supported, using  a v0 compatible [hls.js](https://github.com/video-dev/hls.js) library of your choice (or the default bundled one).
 
 This plugin implements a videojs source handler for m3u8 files or other HLS mime-type matching source objects.
 
-An Hls.js distro is bundled by default with this plugin and there is no need to include it in addition.
+This plugin was created from code forked-off a [Peer5 implementation](https://github.com/Peer5/videojs-contrib-hls) with the motivation to ensure Hlsjs/videojs API type-safety as well as flexible choice of versions on the user-side; specifically allow using a videojs v7+ distro and latest Hls.js v0 or other compatible distro.
 
-The plugin can also be built without bundling Hls.js (see package-script `npm run build:use-external-hlsjs`). In this case, an Hls.js distro should be installed in the environment, exported as a  `window` property or via your own build toolchain in a CJS/UMD fashion. This should allow to use the Hls.js version of your choice, without having to rebuild the plugin. See the section [Dependency Injection](#dependency-injection) in this readme for more information on this feature.
-
-NOTE: This plugin was created from code forked-off a [Peer5 implementation](https://github.com/Peer5/videojs-contrib-hls) with the motivation to ensure Hlsjs/videojs API type-safety as well as flexible choice of versions on the user-side; specifically allow using a videojs v7+ distro and latest Hls.js v0 or other compatible distro.
-
-## Getting Started
+# Usage / Getting Started
 
 Take a look at `examples/index.html` and use the files in `dist` of this git repo.
+
+You can find the prebuilts in `dist` folder or build yourself using `npm run build`. 
+
+There are two build flavors for this plugins distro:
+
+* Hls.js is bundled with the plugin and there is no need to include it in addition.
+
+* No Hls.js is bundled with the plugin. You can make sure it exists at load time and the plugin will be setup automatically, or you can call the setup function manually and perform dependency-injection for both the Hls.js and videojs dependency modules.
+
+For more information on this, see the (Dependency Injection)[#dependency-injection] section in here.
+
+# Examples
+
+Find sample code for both the external and bundle case in the `examples` folder.
+
+# Dev
+
+Use `npm start` to run a dev-server.
 
 ## Options
 hls.js is [very configurable](https://github.com/dailymotion/hls.js/blob/master/API.md#fine-tuning), you may pass in an options object to the source handler at player initialization. You can pass in options just like you would for other parts of video.js:
@@ -51,8 +66,6 @@ A full list of hls.js events can be found [here](https://github.com/video-dev/hl
 
 ### Custom hls.js configuration
 
-**DO NOT USE THIS REF UNLESS YOU KNOW WHAT YOU ARE DOING**
-
 the hls.js instance is exposed on the sourceHandler instance
 
  ```js
@@ -63,11 +76,11 @@ the hls.js instance is exposed on the sourceHandler instance
 
 ## Dependency Injection
 
-NOTE: This mostly supposes that you are using a dist of this plugin which is *not* bundling Hls.js. This isn't the default case, and my require that you use results of running `npm run build:use-external-hlsjs`.
-
 If Hls.js or videojs are not resolved at declaration time of the plugin in one of the expectable ways, the plugin setup will silently no-op.
 
 To programmatically inject Hlsjs or videojs libraries in a custom way (for example to avoid polluting global namespace and without relying on module-bundler capacities), the declaration can be run explicitely via the setup function exported by the plugin module (supposing you are importing the plugin with a module-bundler):
+
+You should in this case use the `External` build flavor in `dist`.
 
 ```
 var videojs = require('videojs');
