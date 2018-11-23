@@ -8,11 +8,15 @@
         <script src="../node_modules/video.js/dist/video.js"></script>
 
         <!--
-        <script src="../node_modules/hls.js/dist/hls.js"></script>
+
         -->
 
         <!-- Load Hls before Videojs plugin -->
-        <script src="/dist/HlsjsVideojsPlugin.min.js"></script>
+        <script src="/dist/HlsjsVideojsPluginExternal.min.js"></script>
+
+        <!-- We can put this to load *before* the plugin as well and
+            in this case we would not have to call the plugin explicitely later -->
+        <script src="../node_modules/hls.js/dist/hls.js"></script>
 
     </head>
     <body>
@@ -23,10 +27,29 @@
         </video>
 
         <p>
-            Go <a href="external-hlsjs.html">here</a> for a usage example with an externally provided Hls.js distro.
+            Go <a href="index.html">here</a> for a usage example with the bundled Hls.js distro.
         </p>
 
         <script>
+
+            ///*
+
+            // Or via any module-loader:
+
+            /*
+            const videojs = require('videojs')
+
+            const HlsjsVideojsPluginExternal = require('@emliri/hlsjs-videojs')
+
+            const Hls = require('hls.js')
+            */
+
+            // both arguments are optional and will fallback to look for Hls / videojs in global scope
+            HlsjsVideojsPluginExternal(Hls, videojs);
+
+            // NOTE: only required when dependencies didn't exist yet in global scope at plugin load time
+
+            //*/
 
             var DEBUG_LOG_ENABLED = true;
 

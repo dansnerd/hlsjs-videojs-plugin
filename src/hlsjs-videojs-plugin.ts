@@ -10,7 +10,7 @@
 import * as Hls from 'hls.js';
 import videojs from 'video.js';
 
-function setup(HlsjsConstructor: typeof Hls, videojsLib: typeof videojs) {
+function plugin(HlsjsConstructor: typeof Hls, videojsLib: typeof videojs) {
 
   if (!videojsLib || !HlsjsConstructor) {
     return;
@@ -181,6 +181,6 @@ function setup(HlsjsConstructor: typeof Hls, videojsLib: typeof videojs) {
   }
 }
 
-setup(Hls || (window as any).Hls, videojs || (window as any).videojs);
+plugin(Hls || (window as any).Hls, videojs || (window as any).videojs);
 
-export default setup;
+export default plugin;
