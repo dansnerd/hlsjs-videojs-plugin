@@ -1,8 +1,8 @@
-# HLS plugin for video.js using hls.js
+# HLS plugin for video.js
 
-Plays HLS with [video.js](https://github.com/videojs/video.js) on any HTML5 platform, even where it's not natively supported, using  a v0 compatible [hls.js](https://github.com/video-dev/hls.js) library of your choice (or the default bundled one).
+Play HLS video via [video.js](https://github.com/videojs/video.js) using  a v0 compatible [hls.js](https://github.com/video-dev/hls.js) library of your choice (or the default bundled one).
 
-This plugin implements a videojs source handler for m3u8 files or other HLS mime-type matching source objects.
+This plugin implements a videojs source handler for M3U8 files or other HLS mime-type matching source objects.
 
 This plugin was created from code forked-off a [Peer5 implementation](https://github.com/Peer5/videojs-contrib-hls) with the motivation to ensure Hlsjs/videojs API type-safety as well as flexible choice of versions on the user-side; specifically allow using a videojs v7+ distro and latest Hls.js v0 or other compatible distro.
 
