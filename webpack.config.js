@@ -3,6 +3,8 @@ const LIB_NAME = 'HlsjsVideojsPlugin';
 const DIST_DIR = 'dist';
 const ENTRY_PATH = 'src/hlsjs-videojs-plugin'
 
+const MINIMIZE = true;
+
 function makeConfig(options = {}) {
 
   const libName = options.libName || LIB_NAME;
@@ -30,7 +32,7 @@ function makeConfig(options = {}) {
       ]
     },
     optimization: {
-      minimize: false
+      minimize: MINIMIZE
     },
     externals: {
       'video\.js': {
