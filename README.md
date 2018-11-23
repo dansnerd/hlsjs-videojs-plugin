@@ -18,7 +18,7 @@ There are two build flavors for this plugins distro:
 
 * No Hls.js is bundled with the plugin. You can make sure it exists at load time and the plugin will be setup automatically, or you can call the setup function manually and perform dependency-injection for both the Hls.js and videojs dependency modules.
 
-For more information on this, see the (Dependency Injection)[#Dependency Injection] section in here.
+For more information on this, see the [Dependency Injection](#dependency-injection) section in here.
 
 # Examples
 
