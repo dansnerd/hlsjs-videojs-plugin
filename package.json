@@ -1,5 +1,5 @@
 {
-  "name": "@emliri/hlsjs-videojs-plugin",
+  "name": "@dansnerd/hlsjs-videojs-plugin",
   "version": "4.0.0",
   "description": "Hls.js plugin for videojs",
   "main": "dist/HlsjsVideojsPlugin.min.js",
@@ -34,7 +34,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/emliri/videojs-contrib-hls.js.git"
+    "url": "git+https://github.com/dansnerd/hlsjs-videojs-plugin.git"
   },
   "keywords": [
     "hlsjs",
@@ -42,12 +42,13 @@
     "videojs",
     "video.js",
     "videojs-contrib-hls.js",
+    "hlsjs-videojs-plugin",
     "peer5"
   ],
   "author": "Peer5 | Emliri | Stephan Hesse <stephan@emliri.com>",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/emliri/videojs-contrib-hls.js/issues"
+    "url": "https://github.com/dansnerd/hlsjs-videojs-plugin/issues"
   },
-  "homepage": "https://github.com/emliri/videojs-contrib-hls.js#readme"
+  "homepage": "https://github.com/dansnerd/hlsjs-videojs-plugin#readme"
 }
